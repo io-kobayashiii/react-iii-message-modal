@@ -20,6 +20,12 @@ export class MessageModal {
 	modalHeaderTextElement: HTMLDivElement
 	modalHeaderCloseButtonElement: HTMLDivElement
 	modalBodyElement: HTMLDivElement
+	customEvents: {
+		close: {
+			[key in ModalType]: CustomEvent
+		}
+	}
+	currentModalType: ModalType
 	constructor() {
 		console.log(`log ::: ${this.constructor.name}.constructor`)
 		this.bodyElement = document.getElementsByTagName('body')[0]
@@ -30,6 +36,8 @@ export class MessageModal {
 		this.modalHeaderTextElement = document.createElement('div')
 		this.modalHeaderCloseButtonElement = document.createElement('div')
 		this.modalBodyElement = document.createElement('div')
+		this.customEvents = this.createCustomEvent()
+		this.currentModalType = 'default'
 	}
 	initialize() {
 		console.log(`log ::: ${this.constructor.name}.initialize`)
@@ -82,6 +90,15 @@ export class MessageModal {
 			}
 		}
 	}
+	createCustomEvent() {
+		return {
+			close: {
+				default: new CustomEvent('iii-message-modal.close.default'),
+				caution: new CustomEvent('iii-message-modal.close.caution'),
+				error: new CustomEvent('iii-message-modal.close.error'),
+			},
+		}
+	}
 	async show({ modalType, headingText, message }: ShowPropsType) {
 		console.log(`log ::: ${this.constructor.name}.show`)
 		this.modalHeaderElement.style.backgroundColor = this.getModalTypeColor(modalType)
@@ -102,5 +119,6 @@ export class MessageModal {
 		this.modalHeaderTextElement.innerText = ''
 		this.modalBodyElement.innerText = ''
 		this.modalContentElement.classList.remove('inactivate')
+		window.dispatchEvent(this.customEvents.close[this.currentModalType])
 	}
 }
