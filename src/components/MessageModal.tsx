@@ -11,6 +11,11 @@ type ShowPropsType = {
 	message: string
 }
 
+type Options = {
+	modalTypeColor?: {
+		[key in ModalType]?: string
+	}
+}
 export class MessageModal {
 	bodyElement: HTMLBodyElement
 	modalElement: HTMLDivElement
@@ -26,7 +31,12 @@ export class MessageModal {
 		}
 	}
 	currentModalType: ModalType
-	constructor() {
+	customModalTypeColor:
+		| {
+				[key in ModalType]?: string
+		  }
+		| null
+	constructor(options?: Options) {
 		console.log(`log ::: ${this.constructor.name}.constructor`)
 		this.bodyElement = document.getElementsByTagName('body')[0]
 		this.modalElement = document.createElement('div')
@@ -38,6 +48,7 @@ export class MessageModal {
 		this.modalBodyElement = document.createElement('div')
 		this.customEvents = this.createCustomEvent()
 		this.currentModalType = 'default'
+		this.customModalTypeColor = options?.modalTypeColor || null
 	}
 	initialize() {
 		console.log(`log ::: ${this.constructor.name}.initialize`)
@@ -80,13 +91,13 @@ export class MessageModal {
 	getModalTypeColor(modalType: ModalType) {
 		switch (modalType) {
 			case 'default': {
-				return '#6c757d'
+				return this.customModalTypeColor?.default || '#6c757d'
 			}
 			case 'warning': {
-				return '#ffc107'
+				return this.customModalTypeColor?.warning || '#ffc107'
 			}
 			case 'error': {
-				return '#dc3545'
+				return this.customModalTypeColor?.error || '#dc3545'
 			}
 		}
 	}
