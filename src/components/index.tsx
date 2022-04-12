@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { MessageModal } from './MessageModal'
+import { OptionsType } from '../types'
 
-export const useMessageModal = () => {
-	const [MessageModalInstance] = React.useState(new MessageModal())
+export const useMessageModal = (options?: OptionsType) => {
+	const [MessageModalInstance] = React.useState(new MessageModal(options))
 	return MessageModalInstance
 }
