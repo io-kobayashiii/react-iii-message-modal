@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { IoCloseOutline } from 'react-icons/io5'
 import { MessageModalConfig } from '../configs'
 
-type ModalType = 'default' | 'error' | 'caution'
+type ModalType = 'default' | 'warning' | 'error'
 
 type ShowPropsType = {
 	modalType: ModalType
@@ -82,7 +82,7 @@ export class MessageModal {
 			case 'default': {
 				return '#6c757d'
 			}
-			case 'caution': {
+			case 'warning': {
 				return '#ffc107'
 			}
 			case 'error': {
@@ -93,14 +93,15 @@ export class MessageModal {
 	createCustomEvent() {
 		return {
 			close: {
-				default: new CustomEvent('iii-message-modal.close.default'),
-				caution: new CustomEvent('iii-message-modal.close.caution'),
-				error: new CustomEvent('iii-message-modal.close.error'),
+				default: new CustomEvent('iii.mm.close.default'),
+				warning: new CustomEvent('iii.mm.close.warning'),
+				error: new CustomEvent('iii.mm.close.error'),
 			},
 		}
 	}
 	async show({ modalType, headingText, message }: ShowPropsType) {
-		console.log(`log ::: ${this.constructor.name}.show`)
+		console.log(`log ::: ${this.constructor.name}.show / currentModalType: ${this.currentModalType}`)
+		this.currentModalType = modalType
 		this.modalHeaderElement.style.backgroundColor = this.getModalTypeColor(modalType)
 		this.modalHeaderTextElement.innerText = headingText || ''
 		this.modalBodyElement.innerText = message
