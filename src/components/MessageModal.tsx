@@ -2,19 +2,12 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import { IoCloseOutline } from 'react-icons/io5'
 import { MessageModalConfig } from '../configs'
-
-type ModalType = 'default' | 'warning' | 'error'
+import { ModalType, OptionsType } from '../types'
 
 type ShowPropsType = {
 	modalType: ModalType
 	headingText?: string
 	message: string
-}
-
-type Options = {
-	modalTypeColor?: {
-		[key in ModalType]?: string
-	}
 }
 export class MessageModal {
 	bodyElement: HTMLBodyElement
@@ -36,7 +29,7 @@ export class MessageModal {
 				[key in ModalType]?: string
 		  }
 		| null
-	constructor(options?: Options) {
+	constructor(options?: OptionsType) {
 		console.log(`log ::: ${this.constructor.name}.constructor`)
 		this.bodyElement = document.getElementsByTagName('body')[0]
 		this.modalElement = document.createElement('div')
