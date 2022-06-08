@@ -52,7 +52,7 @@ export const MessageModalConfig = {
 			borderTop: '1px solid #dddddd',
 		},
 	},
-	planeTextStyle: {
+	plainTextStyle: {
 		activationAnimation: `
 .message-modal__content.activate {
 	animation: 0.3s activate-modal ease;
