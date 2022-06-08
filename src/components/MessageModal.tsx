@@ -30,7 +30,6 @@ export class MessageModal {
 		  }
 		| null
 	constructor(options?: OptionsType) {
-		console.log(`log ::: ${this.constructor.name}.constructor`)
 		this.bodyElement = document.getElementsByTagName('body')[0]
 		this.modalElement = document.createElement('div')
 		this.modalBackgroundElement = document.createElement('div')
@@ -44,7 +43,6 @@ export class MessageModal {
 		this.customModalTypeColor = options?.modalTypeColor || null
 	}
 	initialize() {
-		console.log(`log ::: ${this.constructor.name}.initialize`)
 		this.createModalElements()
 		this.setClasses()
 		this.applyStyles()
@@ -78,7 +76,7 @@ export class MessageModal {
 	}
 	createAnimationStyle() {
 		const styleElement = document.createElement('style')
-		styleElement.innerHTML = MessageModalConfig.planeTextStyle.activationAnimation
+		styleElement.innerHTML = MessageModalConfig.plainTextStyle.activationAnimation
 		document.getElementsByTagName('head')[0].append(styleElement)
 	}
 	getModalTypeColor(modalType: ModalType) {
@@ -104,7 +102,7 @@ export class MessageModal {
 		}
 	}
 	async show({ modalType, headingText, message }: ShowPropsType) {
-		console.log(`log ::: ${this.constructor.name}.show / currentModalType: ${this.currentModalType}`)
+		this.initialize()
 		this.currentModalType = modalType
 		this.modalHeaderElement.style.backgroundColor = this.getModalTypeColor(modalType)
 		this.modalHeaderTextElement.innerText = headingText || ''
@@ -115,7 +113,6 @@ export class MessageModal {
 		this.modalContentElement.classList.remove('activate')
 	}
 	async hide() {
-		console.log(`log ::: ${this.constructor.name}.hide`)
 		this.modalContentElement.classList.add('inactivate')
 		await new Promise((resolve) => setTimeout(resolve, 280))
 		this.modalElement.style.display = 'none'
@@ -125,5 +122,6 @@ export class MessageModal {
 		this.modalBodyElement.innerText = ''
 		this.modalContentElement.classList.remove('inactivate')
 		window.dispatchEvent(this.customEvents.close[this.currentModalType])
+		this.modalElement.remove()
 	}
 }
